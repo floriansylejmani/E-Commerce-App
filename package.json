@@ -1,0 +1,21 @@
+{  
+  "name": "E-Commerce-App",  
+  "version": "1.0.0",  
+  "description": "German-Albanian Language Learning Platform",  
+  "main": "index.js",  
+  "scripts": {  
+    "start": "node index.js",  
+    "test": "echo 'Error: no test specified' && exit 1"  
+  },  
+  "repository": {  
+    "type": "git",  
+    "url": "git+https://github.com/floriansylejmani/E-Commerce-App.git"  
+  },  
+  "author": "Florian Sylejmani",  
+  "license": "ISC",  
+  "dependencies": {  
+    "express": "^4.17.1",  
+    "mongoose": "^5.10.9",  
+    "dotenv": "^8.2.0"  
+  }  
+}  
