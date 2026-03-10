@@ -1,0 +1,116 @@
+// This is the Prisma schema file for the E-Commerce App
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  name      String?
+  password  String
+  courses    Course[]
+  achievements Achievement[]
+  progress   Progress[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Course {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String?
+  lessons     Lesson[]
+  media       Media[]
+  users       User[]     @relation("UserCourses")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Lesson {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String?
+  courseId  Int
+  course    Course   @relation(fields: [courseId], references: [id])
+  exercises  Exercise[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Vocabulary {
+  id        Int      @id @default(autoincrement())
+  word      String
+  definition String
+  examples   String[]?
+  grammarId  Int
+  grammar    Grammar   @relation(fields: [grammarId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Grammar {
+  id          Int       @id @default(autoincrement())
+  topic       String
+  description String?
+  vocabulary  Vocabulary[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Exercise {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String?
+  lessonId  Int
+  lesson    Lesson   @relation(fields: [lessonId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Progress {
+  id           Int      @id @default(autoincrement())
+  userId      Int
+  courseId     Int
+  progressData Json
+  user        User     @relation(fields: [userId], references: [id])
+  course      Course   @relation(fields: [courseId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Achievement {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  title     String
+  description String?
+  achievedAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Media {
+  id        Int      @id @default(autoincrement())
+  url       String
+  type      String
+  courseId  Int
+  course    Course   @relation(fields: [courseId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Gamification {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  points     Int
+  level      Int
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
